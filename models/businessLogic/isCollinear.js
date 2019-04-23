@@ -3,19 +3,18 @@
 
 
 
-// const repl = require('repl');
+const repl = require('repl');
 
 // all points connected to the same point with the same slope are collinear
 // calculate the slopes of each line created with point i and count the segments
 // eliminating the cases where the number of points is under n
 // and also eliminate repeat cases of the same line
 
-function qcollinear (set, n, linesOrSegmentsFunction) {
+function qcollinear (set, n,) {
     // keep track of repeat cases
     let p = 0;
-    
+    let lines = [];
     // keep track of the coordinates of the lines that satisfy collinear points N
-    const lines = [];
     //iterate through each point
     for (let i = 0; i < set.length; i++) {
 	//empty array that will store all lines and their slopes
@@ -35,75 +34,114 @@ function qcollinear (set, n, linesOrSegmentsFunction) {
 		
 	
 		//store them in an array for compare later
-		points.push(point);
 		
+		points.push(point);
+
+		// console.log(points);
 	    }
 	}
 	
-	// sort the slopes in order to find duplicates ( duplicates will be next to each other)
-	points.sort(function(a,b){return a[1]-b[1];});
-
 	//three colinear points will be two lines with duplicate slopes so if the slopes at adjoining indexes are the same then
 	
-//set up a function to determine which sets of points are collinear
-function determineLinesCollinearWithFocal (focal, points) {
-    //account for how many extra points have to be included to satisfy n
-    // if n is 2 every point collinear with point focal is collinear
-	const nFactor = n-2;
-	for(let l = 0; l < points.length; l++) {
-	    // skip ahead to the index that would satisfy collinear condition
-	    if (points[l+nFactor] && points[l][1] === points[l+nFactor][1]) {
-		
-		let coLine = [];
+	//set up a function to determine which sets of points are collinear
 
-		coLine.push(points[l][0]);
-		coLine.push(points[l+nFactor][0]);
-		coLine.push(focal);
-		// this only needs to be included in the longest line function
-		coLine.sort(function(a,b){return a[0]-b[0];});
-		
-		// retain slope for each collinear set
-		coLine.push(points[l][1]);
-		//add the results to the complete line segments array
-		lines.push(coLine);
-	    }
+	function determineLinesCollinearWithFocal (focal, points) {
 	    
+
+	    // sort the slopes in order to find duplicates ( duplicates will be next to each other)
+	    points.sort(function(a,b){return a[1]-b[1];});
+	    //account for how many extra points have to be included to satisfy n
+	    // if n is 2 every point collinear with point focal is collinear
+	    const nFactor = n-2;
+	    for(let l = 0; l < points.length; l++) {
+		let coLine = [];
+		// skip ahead to the index that would satisfy slope collinear condition
+		if (points[l+nFactor] && points[l][1] === points[l+nFactor][1]) {
+
+		    coLine.push(points[l][1]);
+		    coLine.push(points[l][0]);
+		    coLine.push(points[l+nFactor][0]);
+		    coLine.push(focal);
+		    lines.push(coLine);
+		    
+	    }
+	
 	}
-    // sort by slope to prepare for further processing
-    lines.sort(function(a,b){return a[3]-b[3];});
-    return lines;
-
-}
-
+	}
+	
 	//increment the repeat cases counter to avoid repeat cases
 	p++;
 	// run the collinear determination function
 	determineLinesCollinearWithFocal(set[i], points);
+
+
+    }
+   
+    console.log(lines);
+
+    let totals = [];
+
+    function sublist (lines) {
+	lines.sort(function(a,b){return a[0]-b[0];});
+	const tempLines = lines;
+	const subtotals = [];
+	if(lines.length > 0 &&
+	    lines.length === 1) {
+	    subtotals.push(lines[0]);
+	    totals.push(subtotals);
+	    
+	    return totals;
+	}
+	for(let i = lines.length-1; i >= 1; i--) {
+	   
+	   if(lines[i-1][0] === lines[i][0] &&
+	      hasDupes(lines[i-1],lines[i]))
+	    {	   
+	       subtotals.push(lines[i-1]);
+	       lines.pop();
+		console.log(tempLines);
+	    } else if (
+
+		(subtotals[0][0] && lines[i][0] === subtotals[0][0]) &&
+		      hasDupes(lines[i], subtotals[0])
+		     )
+	       // lines[i-1] &&
+	       // lines[i-1][0] !== lines[i][0] &&
+	       // 	   // (subtotals[0][0] && lines[i][0] === subtotals[0][0]) 
+
+	       // hasDupes(lines[i], tempLines[i+1]))
+	   
+	   	      {
+	       
+	       subtotals.push(lines[i]);
+	       
+	    lines.pop();
+	       
+	       }
+	   
+	}
+	
+	
+	totals.push(subtotals);
+	console.log(totals);    
+	return sublist(lines);
 	
     }
 
-    return lines;
-    
+    sublist(lines);
+
+    console.log(totals);
+    let result = [];
+    totals.forEach(set => {
+	let longest = realGetLongestSingleDistance(set);
+	result.push([longest[1],longest[2]]);
+    });
  
+ 
+    return result;
+    
+    
 }
-
-// a line only has to have two points
-// set up a function that gets rid of other collinear segments
- function reduceLines (lines) {
-	const shortListLines = [];
-	shortListLines.push([lines[0][0],lines[0][1]]);
-	// determine results that lie on the same line
-	for(let i = 0; i < lines.length-1; i++) {
-	    if(lines[i][3] !== lines[i+1][3] && !lines[i].every(e =>lines[i+1].includes(e))) {
-		shortListLines.push([lines[i][0], lines[i][1]]);
-	    }
-	}
-	return shortListLines;
-	
-}
-
-
-
 
 
 // helper function that gets the slope
@@ -112,7 +150,7 @@ function getSlope(x1, y1, x2, y2) {
 };
 
 
-//distance helper function ;input is two point arrays
+
  function getDistance (pointOne, pointTwo) {
     const a = pointOne[0] - pointTwo[0];
     const b = pointOne[1] - pointTwo[1];
@@ -120,128 +158,33 @@ function getSlope(x1, y1, x2, y2) {
 }
 
 //make sublists before adding distances
-
- function createSublist (theLines, listsArr) {
-    let linesWithDistance = theLines;
-    let shallowList = [];
-    let subList = [];
-    
-    let i = 0;
-    // console.log(linesWithDistance);
-    if (linesWithDistance.length === 1) {
-	subList.push(linesWithDistance[0]);
-	listsArr.push(subList);
-	return listsArr;
-    }
-    for (let i = 0; i < linesWithDistance.length; i++) {
-    if(linesWithDistance[i+1] &&
-	  (hasDupes(linesWithDistance[i], linesWithDistance[i+1]) || hasDupes(linesWithDistance[i], linesWithDistance[i-1])) &&
-	  ((linesWithDistance[i][3] === linesWithDistance[i+1][3]) || (linesWithDistance[i][3] === linesWithDistance[i-1][3])) &&
-	  i < linesWithDistance.length
-	 ) {
-	subList.push(linesWithDistance[i]);
-    } else {
-	shallowList.push(linesWithDistance[i]);
-    }
-    }
-    
-    // console.log(subList);
-    listsArr.push(subList);
-    console.log(listsArr);
-    return createSublist(shallowList, listsArr);
-    
-}
-
- function getLongestSingleDistance (set) {
  
-    let linesWithDistance = set;
+function subDistance (set) {
+     
+
+    	let distOne = getDistance(set[1], set[2]);
+    	let distTwo = getDistance(set[1],set[3]);
+    	let distThree = getDistance(set[2],set[3]);
+	let distances = [[distOne,set[1],set[2]] , [distTwo,set[1],set[3]], [distThree,set[2],set[3]]];
+	distances.sort(function(a,b){return a[0]-b[0];});
+
+    return distances[distances.length-1];
+	
+				   
+}
+function realGetLongestSingleDistance (set) {
+    
+    let distances = [];
     for(let i = 0; i < set.length; i++) {
-	let dist = getDistance(set[i][0], set[i][2]);
-	// console.log(dist);
-	linesWithDistance[i].push(dist);
-	// console.log(linesWithDistance[i]);
-	
+	distances.push(subDistance(set[i]));
     }
     
-    // console.log(linesWithDistance);
-    linesWithDistance.sort(function(a,b){return a[4]-b[4];});
-    // console.log(linesWithDistance[linesWithDistance.length-1]);
-    return linesWithDistance[linesWithDistance.length-1];
-}
-
-
-
-
-function getLongestLineInSublist (lines) {
-    //calculate the distance of
-
-
-    let listsArr = [];
-    let finalLongestList = [];
-    // populate the lists array with sublists of collinear sets
-    createSublist(lines, listsArr);
-    // console.log(listsArr);
-    for(let i = 0; i < listsArr.length; i++) {
-    	let longest = getLongestSingleDistance(listsArr[i]);
-    	finalLongestList.push([longest[0],longest[2]]);
-    }
-    return finalLongestList;
-    
-
-    
+    distances.sort(function(a,b){return a[0]-b[0];});
  
-
+    return distances[distances.length-1];
+  
 }
 
-    
-    // 	if(linesWithDistance[i+1] &&
-    // 	   linesWithDistance[i][3] === linesWithDistance[i+1][3] && //slopes are same
-    // 	   (hasDupes(linesWithDistance[i], linesWithDistance[i+1]) || hasDupes(linesWithDistance[i], linesWithDistance[i+1]))   // contain atleast one similar point
-    // 	   // linesWithDistance[i][4] < linesWithDistance[i+1][4] // distance is greater
-	   
-    // 	  ) {
-    // 	    let line = linesWithDistance.splice(i,1);
-    // 	    subList.push(line);
-    // 	}
-    // }
-    // return subList;
-
-
-
-    
-    // let temp = [];
-    // let p = 0;
-    // // separate out collinear sets
-    // for(let i = 0; i < linesWithDistance.length; i++) {
-	
-    // 	if(linesWithDistance[i+1] &&
-    // 	   linesWithDistance[i][3] === linesWithDistance[i+1][3] && //slopes are same
-    // 	   (hasDupes(linesWithDistance[i], linesWithDistance[i+1]) || hasDupes(linesWithDistance[i], linesWithDistance[i+1]))   // contain atleast one similar point
-    // 	    // linesWithDistance[i][4] < linesWithDistance[i+1][4] // distance is greater
-    // 	  ) {
-	    
-    // 	    console.log("passed");
-    // 	    temp[p]++;
-    // 	//     console.log("push largest");
-    // 	//     // push the greatest distance line segment
-    // 	//     longestLines.splice()
-    // 	    //     // longestLines.push([linesWithDistance[i+1][0], linesWithDistance[i+1][2]]);
-    //  	} else {
-    // 	    console.log("else");
-    // 	    longestLines.push(linesWithDistance[temp[p]]);
-    // 	    p++;
-    // 	}
-    // }
-    // // console.log(temp);
-    
-    // // longestLines.push(temp);
-    // // if(lines[i][3] === lines[i+1][3] && lines[i].every(e =>lines[i+1].includes(e))) {
-    // // 	    //compare distances between collinear sets (excluding point in the middle)
-    // // 	    longestLines.push(
-    // // 	  }
-//     return longestLines; // output is array of collinear point arrays
-    
-// }
 
 function hasDupes (A,B) {
     for (let i = 0; i < A.length; i++) {
@@ -284,35 +227,31 @@ Array.prototype.equals = function (array) {
 Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 
 
-// // global.setRandomPointsP = setRandomPointsP;
-// // global.randSet = setRandomPointsP(10, 20);
-// global.createSublist = createSublist;
-// global.hasDupes = hasDupes;
-// global.qcollinear = qcollinear;
-// global.slope = getSlope;
-// global.getLongestLineInSublist = getLongestLineInSublist;
-// global.set = [[1,1],[2,2],[3,3],[4,4]];
-// global.set2 = [[1,1],[1,3],[2,2],[3,3],[3,1]];
-// global.set3 = [[1,1],[2,2],[3,3],[4,4],[5,5]];
-// global.set4 = [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0]];
-// global.set5 = [[2,2],[3,1],[4,0],[1,1],[1,3],[0,4],[3,3]];
-// global.testLines = qcollinear(global.set5,3);
-// global.everyLine = reduceLines;
-// // global.collinear = collinear;
 
-// repl.start('>');
+global.getDistance = getDistance;
+global.hasDupes = hasDupes;
+global.qcollinear = qcollinear;
+global.slope = getSlope;
+global.set = [[1,1],[2,2],[3,3],[4,4]];
+global.set2 = [[1,1],[1,3],[2,2],[3,3],[3,1]];
+global.set3 = [[1,1],[2,2],[3,3],[4,4],[5,5]];
+global.set4 = [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0]];
+global.set5 = [[2,2],[3,1],[4,0],[1,1],[1,3],[0,4],[3,3]];
+
+global.set6 = [ [ 3, 3 ],
+  [ 1, 1 ],
+  [ 2, 2 ],
+  [ 4, 4 ],
+  [ 5, 5 ],
+  [ 1, 3 ],
+		[ 3, 1 ]];
+
+
+repl.start('>');
 
 
 
 
-// export default { hasDupes,
-// 		 getLongestLineInSublist,
-// 		 getLongestSingleDistance,
-// 		 createSublist,
-// 		 getDistance,
-// 		 getSlope,
-// 		 reduceLines,
-// 		 qcollinear
-// 	       };
+
 		 
-module.exports = {hasDupes, getLongestLineInSublist, getLongestSingleDistance, createSublist, getDistance, getSlope, reduceLines, qcollinear};
+module.exports = {hasDupes, getDistance, getSlope, qcollinear};

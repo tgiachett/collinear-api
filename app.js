@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 
 
 app.get("/space", (req, res) => {
+
     models.Point.findAll({}).then((space) => {
 	const pointsArr = [];
 	console.log(space);
@@ -22,7 +23,7 @@ app.get("/space", (req, res) => {
 	    let objectPoint = {x: point.dataValues.x,
 			       y: point.dataValues.y};
 	    pointsArr.push(objectPoint);
-	    // processedToArray.push([point.dataValues.x, point.dataValues.y]);
+	   
 	    });
 	res.json(pointsArr);
     });
@@ -78,6 +79,7 @@ app.post("/lines/:n", (req, res) => {
 	    console.log(intermediateList);
 	    if(!intermediateList[0] || null) {
 		res.json({Error: "No valid output"});
+		return;
 	    }
 	    intermediateList.forEach(coordPair => {
 		let coordsArr = [];

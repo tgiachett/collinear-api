@@ -11,7 +11,11 @@
 // and also eliminate repeat cases of the same line
 
 function qcollinear (set, n,) {
-    // keep track of repeat cases
+    
+    if(set < n || n === 0 || n === 1) {
+	return [];
+    }
+    // keep track of repeat cases with p
     let p = 0;
     let lines = [];
     // keep track of the coordinates of the lines that satisfy collinear points N
@@ -47,7 +51,6 @@ function qcollinear (set, n,) {
 
 	function determineLinesCollinearWithFocal (focal, points) {
 	    
-
 	    // sort the slopes in order to find duplicates ( duplicates will be next to each other)
 	    points.sort(function(a,b){return a[1]-b[1];});
 	    //account for how many extra points have to be included to satisfy n
@@ -86,7 +89,7 @@ function qcollinear (set, n,) {
 	const tempLines = lines;
 	const subtotals = [];
 	if(lines.length > 0 &&
-	    lines.length === 1) {
+	    lines.length <= 1) {
 	    subtotals.push(lines[0]);
 	    totals.push(subtotals);
 	    
@@ -105,12 +108,6 @@ function qcollinear (set, n,) {
 		(subtotals[0][0] && lines[i][0] === subtotals[0][0]) &&
 		      hasDupes(lines[i], subtotals[0])
 		     )
-	       // lines[i-1] &&
-	       // lines[i-1][0] !== lines[i][0] &&
-	       // 	   // (subtotals[0][0] && lines[i][0] === subtotals[0][0]) 
-
-	       // hasDupes(lines[i], tempLines[i+1]))
-	   
 	   	      {
 	       
 	       subtotals.push(lines[i]);

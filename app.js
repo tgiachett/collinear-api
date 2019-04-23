@@ -76,7 +76,9 @@ app.post("/lines/:n", (req, res) => {
 	    
 	    const intermediateList = collinear.qcollinear(processedToArray, n);
 	    console.log(intermediateList);
-	    
+	    if(!intermediateList[0] || null) {
+		res.json({Error: "No valid output"});
+	    }
 	    intermediateList.forEach(coordPair => {
 		let coordsArr = [];
 		coordPair.forEach( coord => {

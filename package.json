@@ -1,0 +1,25 @@
+{
+  "name": "collinear-api",
+  "version": "1.0.0",
+  "description": "## Overview",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tgiachett/collinear-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tgiachett/collinear-api/issues"
+  },
+  "homepage": "https://github.com/tgiachett/collinear-api#readme",
+  "dependencies": {
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.7.4"
+  }
+}

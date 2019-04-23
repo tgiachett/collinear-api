@@ -3,7 +3,7 @@
 
 
 
-const repl = require('repl');
+// const repl = require('repl');
 
 // all points connected to the same point with the same slope are collinear
 // calculate the slopes of each line created with point i and count the segments
@@ -228,30 +228,30 @@ Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 
 
 
-global.getDistance = getDistance;
-global.hasDupes = hasDupes;
-global.qcollinear = qcollinear;
-global.slope = getSlope;
-global.set = [[1,1],[2,2],[3,3],[4,4]];
-global.set2 = [[1,1],[1,3],[2,2],[3,3],[3,1]];
-global.set3 = [[1,1],[2,2],[3,3],[4,4],[5,5]];
-global.set4 = [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0]];
-global.set5 = [[2,2],[3,1],[4,0],[1,1],[1,3],[0,4],[3,3]];
+// global.getDistance = getDistance;
+// global.hasDupes = hasDupes;
+// global.qcollinear = qcollinear;
+// global.slope = getSlope;
+// global.set = [[1,1],[2,2],[3,3],[4,4]];
+// global.set2 = [[1,1],[1,3],[2,2],[3,3],[3,1]];
+// global.set3 = [[1,1],[2,2],[3,3],[4,4],[5,5]];
+// global.set4 = [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0]];
+// global.set5 = [[2,2],[3,1],[4,0],[1,1],[1,3],[0,4],[3,3]];
 
-global.set6 = [ [ 3, 3 ],
-  [ 1, 1 ],
-  [ 2, 2 ],
-  [ 4, 4 ],
-  [ 5, 5 ],
-  [ 1, 3 ],
-		[ 3, 1 ]];
+// global.set6 = [ [ 3, 3 ],
+//   [ 1, 1 ],
+//   [ 2, 2 ],
+//   [ 4, 4 ],
+//   [ 5, 5 ],
+//   [ 1, 3 ],
+// 		[ 3, 1 ]];
 
 
-repl.start('>');
+// repl.start('>');
 
 
 
 
 
 		 
-module.exports = {hasDupes, getDistance, getSlope, qcollinear};
+module.exports = {qcollinear};

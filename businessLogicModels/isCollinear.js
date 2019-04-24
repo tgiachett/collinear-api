@@ -29,7 +29,7 @@ function qcollinear (set, n,) {
 	//determine the slope of this point and every OTHER point, and store these in an array with corresponding line coordinates 
 	for (let k = p; k < set.length; k++) {
 	    //only check angles with other points
-	    console.log("set[i]", set[i], "set[k]", set[k]);
+	    
 	    if (set[i][0] === set[k][0] && set[i][1] === set[k][1]) {
 	    } else {
 		
@@ -43,7 +43,7 @@ function qcollinear (set, n,) {
 
 	    }
 	}
-	console.log("points", points, "focal", set[i]);
+
 	
 	p++;
 	// run the collinear determination with atleast n on the set of points with their slopes
@@ -51,15 +51,13 @@ function qcollinear (set, n,) {
 
     }
     // if no Collinear points are found then return
-    // console.log(lines);
     if(!lines[0]) {
 	return [];
     } else {
 	let totals = [];
 
 	lines.sort(function(a,b){return a[0]-b[0];});
-	console.log(lines);
-	twosublist(lines, totals);
+	sublist(lines, totals);
 
 	//find longest for each sublist (collinear set) and push those to the results array
 	
@@ -100,71 +98,21 @@ function determineLinesCollinearWithFocal (focal, points, lines, n) {
 
 
 
-function twosublist (lines, totals) {
-    console.log("beginning lines",lines);
-    // const tempLines = lines;
-    const subtotals = [];
-    for(let i = lines.length-1; i >= 0; i--) {
-	console.log("before",lines[i]);
-	
-	if(lines[i-1][0] === lines[i][0] &&
-	   hasDupes(lines[i-1],lines[i]))
-	{	   
-	    console.log("tripped 1", lines[i]);
-	    subtotals.push(lines[i]);
-	    lines.pop();
-	    // console.log("tripped1", lines[i-1]);
-	} else if (
-
-	    (subtotals[0] &&
-		subtotals[0][0] && lines[i][0] === subtotals[0][0]) &&
-		hasDupes(lines[i], subtotals[0])
-	)
-	{
-	    console.log("tripped2", lines[i]);
-	    subtotals.push(lines[i]);
-	    lines.pop();
-	    
-	} else if (lines[i] === lines[lines.length-1]) {
-	    subtotals.push(lines[i]);
-	    totals.push(subtotals);
-	    lines.pop();
-	    console.log("tripped 3");
-	    return sublist(lines, totals);
-	}
-	    if(lines.length > 0 &&
-       lines.length <= 1) {
-    	console.log("tripped last");
-    		console.log(lines[0]);
-		console.log("last sub",subtotals);
-    	subtotals.push(lines[0]);
-    	totals.push(subtotals);
-		console.log("endtotals",totals);
-    	return totals;
-    }
-    }
-    
-    totals.push(subtotals);
-    // console.log("loop",lines);
-    return sublist(lines, totals);
-
-}
-
-
-
-
 function sublist (lines, totals) {
-    console.log(lines);
-    // const tempLines = lines;
+    if(lines.length ===1) {
+	totals.push(lines);
+	return totals;
+    }
+
     const subtotals = [];
     for(let i = lines.length-1; i >= 0; i--) {
-	console.log("before",lines[i]);
 	
-	if(lines[i-1][0] === lines[i][0] &&
+	if(lines[i-1] &&
+	    lines[i-1][0] === lines[i][0] &&
 	   hasDupes(lines[i-1],lines[i]))
 	{	   
-	    console.log("tripped 1", lines[i]);
-	    subtotals.push(lines[i-1]);
+	  
+	    subtotals.push(lines[i]);
 	    lines.pop();
 	    // console.log("tripped1", lines[i-1]);
 	} else if (
@@ -174,7 +122,6 @@ function sublist (lines, totals) {
 		hasDupes(lines[i], subtotals[0])
 	)
 	{
-	    console.log("tripped2", lines[i]);
 	    subtotals.push(lines[i]);
 	    lines.pop();
 	    
@@ -186,21 +133,70 @@ function sublist (lines, totals) {
 	}
 	    if(lines.length > 0 &&
        lines.length <= 1) {
-    	console.log("tripped last");
-    		console.log(lines[0]);
-		console.log("last sub",subtotals);
+    
     	subtotals.push(lines[0]);
     	totals.push(subtotals);
-    	console.log(totals);
     	return totals;
     }
     }
     
     totals.push(subtotals);
-    console.log("loop",lines);
     return sublist(lines, totals);
 
 }
+
+
+
+
+// function sublist (lines, totals) {
+//     console.log("lines input",lines);
+//     // const tempLines = lines;
+//     const subtotals = [];
+//     for(let i = lines.length-1; i >= 0; i--) {
+// 	console.log("before",lines[i]);
+	
+// 	if(lines[i-1] &&
+// 	    lines[i-1][0] === lines[i][0] &&
+// 	   hasDupes(lines[i-1],lines[i]))
+// 	{	   
+// 	    console.log("tripped 1", lines[i]);
+// 	    subtotals.push(lines[i-1]);
+// 	    lines.pop();
+// 	    // console.log("tripped1", lines[i-1]);
+// 	} else if (
+
+// 	    (subtotals[0] &&
+// 		subtotals[0][0] && lines[i][0] === subtotals[0][0]) &&
+// 		hasDupes(lines[i], subtotals[0])
+// 	)
+// 	{
+// 	    console.log("tripped2", lines[i]);
+// 	    subtotals.push(lines[i]);
+// 	    lines.pop();
+	    
+// 	} else if (lines[i] === lines[lines.length-1]) {
+// 	    subtotals.push(lines[i]);
+// 	    totals.push(subtotals);
+// 	    lines.pop();
+// 	    return sublist(lines, totals);
+// 	}
+// 	    if(lines.length > 0 &&
+//        lines.length <= 1) {
+//     	console.log("tripped last");
+//     		console.log(lines[0]);
+// 		console.log("last sub",subtotals);
+//     	subtotals.push(lines[0]);
+//     	totals.push(subtotals);
+//     	console.log(totals);
+//     	return totals;
+//     }
+//     }
+    
+//     totals.push(subtotals);
+//     console.log("loop",lines);
+//     return sublist(lines, totals);
+
+// }
 
 function getLongestCollinearDistance (set) {
     
@@ -338,26 +334,27 @@ global.set = [[1,1],[2,2],[3,3],[4,4]];
 global.set2 = [[1,1],[1,3],[2,2],[3,3],[3,1]];
 global.set3 = [[1,1],[2,2],[3,3],[4,4],[5,5]];
 global.set4 = [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0]];
-global.set8 = [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0],[2,0],[2,4]];
+
 global.set5 = [[2,2],[3,1],[4,0],[1,1],[1,3],[0,4],[3,3]];
 global.arrayEquals = load;
 
 
-global.set6 = [ [ 3, 3 ],
-  [ 1, 1 ],
-  [ 2, 2 ],
-  [ 4, 4 ],
-  [ 5, 5 ],
-  [ 1, 3 ],
-		[ 3, 1 ]];
+global.set6 = [ [ 3, 3 ], [ 1, 1 ], [ 2, 2 ], [ 4, 4 ], [ 5, 5 ], [ 1, 3 ],[ 3, 1 ]];
 global.set7 = [[1,3,],[2,2],[1,1],[4,4]];
+global.set8 = [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0],[2,0],[2,4]];
+global.set9 = [[1,3,],[2,2],[1,1],[4,4],[9,11]];
+global.set10 = [[1,3,],[2,2],[1,1],[4,4],[9,11], [(1/3), 3], [(1/3), 0], [(1/3), 6]];
+
+
 
 
 repl.start('>');
 
 
+const testSets  = [[[1,1],[2,2],[3,3],[4,4]], [[1,1],[1,3],[2,2],[3,3],[3,1]], [[1,1],[2,2],[3,3],[4,4],[5,5]], [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0]], [[2,2],[3,1],[4,0],[1,1],[1,3],[0,4],[3,3]], [ [ 3, 3 ], [ 1, 1 ], [ 2, 2 ], [ 4, 4 ], [ 5, 5 ], [ 1, 3 ],[ 3, 1 ]], [[1,3,],[2,2],[1,1],[4,4]], [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0],[2,0],[2,4]], [[1,3,],[2,2],[1,1],[4,4],[9,11]], [[1,3,],[2,2],[1,1],[4,4],[9,11], [(1/3), 3], [(1/3), 0], [(1/3), 6]]];
 
-
-
+for( let i = 0; i < testSets.length; i++) {
+    console.log(qcollinear(testSets[i], 3));
+}
 
 module.exports = {qcollinear, getSlope, getDistance, subDistance, determineLinesCollinearWithFocal, sublist, getLongestCollinearDistance , hasDupes};

@@ -69,54 +69,72 @@ describe('Practice test for hasDupes', function () {
 
 
 // main pipeline tests
-describe('Unit test for sublist', function () {
-    it('set4 takes an array of arrays and an empty array, each of which has 3 points and a slope, returns a totals array which is those arrays subdivided by collinear ', function () {
-	assert.equal(isCollinear.sublist([ [ 1, [ 2, 2 ], [ 3, 3 ], [ 1, 1 ] ],
-  [ -1, [ 2, 2 ], [ 3, 1 ], [ 1, 3 ] ],
-  [ -1, [ 3, 1 ], [ 0, 4 ], [ 1, 3 ] ],
-  [ -1, [ 0, 4 ], [ 4, 0 ], [ 1, 3 ] ],
-  [ -1, [ 3, 1 ], [ 0, 4 ], [ 2, 2 ] ],
-  [ -1, [ 0, 4 ], [ 4, 0 ], [ 2, 2 ] ],
-[ -1, [ 0, 4 ], [ 4, 0 ], [ 3, 1 ] ] ], []), );
-    });
+// describe('Unit test for sublist', function () {
+//     it('set4 takes an array of arrays and an empty array, each of which has 3 points and a slope, returns a totals array which is those arrays subdivided by collinear ', function () {
+// 	assert.equal(isCollinear.sublist([ [ 1, [ 2, 2 ], [ 3, 3 ], [ 1, 1 ] ],
+//   [ -1, [ 2, 2 ], [ 3, 1 ], [ 1, 3 ] ],
+//   [ -1, [ 3, 1 ], [ 0, 4 ], [ 1, 3 ] ],
+//   [ -1, [ 0, 4 ], [ 4, 0 ], [ 1, 3 ] ],
+//   [ -1, [ 3, 1 ], [ 0, 4 ], [ 2, 2 ] ],
+//   [ -1, [ 0, 4 ], [ 4, 0 ], [ 2, 2 ] ],
+// [ -1, [ 0, 4 ], [ 4, 0 ], [ 3, 1 ] ] ], []), );
+//     });
 
-    it('set 3 takes an array of arrays, each of which has 3 points and a slope, returns a totals array which is those arrays subdivided by collinear ', function () {
-	assert.equal(isCollinear.sublist([ [ 1, [ 2, 2 ], [ 3, 3 ], [ 1, 1 ] ],
-  [ 1, [ 3, 3 ], [ 4, 4 ], [ 1, 1 ] ],
-  [ 1, [ 4, 4 ], [ 5, 5 ], [ 1, 1 ] ],
-  [ 1, [ 3, 3 ], [ 4, 4 ], [ 2, 2 ] ],
-  [ 1, [ 4, 4 ], [ 5, 5 ], [ 2, 2 ] ],
-					   [ 1, [ 4, 4 ], [ 5, 5 ], [ 3, 3 ] ] ], []), true);
-    });
+//     it('set 3 takes an array of arrays, each of which has 3 points and a slope, returns a totals array which is those arrays subdivided by collinear ', function () {
+// 	assert.equal(isCollinear.sublist([ [ 1, [ 2, 2 ], [ 3, 3 ], [ 1, 1 ] ],
+//   [ 1, [ 3, 3 ], [ 4, 4 ], [ 1, 1 ] ],
+//   [ 1, [ 4, 4 ], [ 5, 5 ], [ 1, 1 ] ],
+//   [ 1, [ 3, 3 ], [ 4, 4 ], [ 2, 2 ] ],
+//   [ 1, [ 4, 4 ], [ 5, 5 ], [ 2, 2 ] ],
+// 					   [ 1, [ 4, 4 ], [ 5, 5 ], [ 3, 3 ] ] ], []), true);
+//     });
     
+//     // it('return false if two arrays (of arrays) dont have duplicate elements, but share some coordinate value', function () {
+//     // 	assert.equal(isCollinear.hasDupes([[1,5],[3,6]],[[1,4],[1,2]]), false);
+//     // });
+
+//     // it('return false if two arrays (of arrays) dont have duplicate elements and dont share any coordinate values', function () {
+//     // 	assert.equal(isCollinear.hasDupes([[2,5],[3,7]],[[6,4],[8,1]]), false);
+//     // });
+    
+    
+//     // it('should return first character of the string', function () {
+//     // 	assert.equal("Hello".charAt(0), 'H');
+//     // });
+// });
+
+
+
+
+
+
+
+
+describe('Unit test for qcollinear', function () {
+    // it('return true if two arrays (of arrays) have duplicate elements', function () {
+    // 	assert.equal(Array.isArray(isCollinear.qcollinear([[1,1],[2,2],[3,3],[4,4]])), true);
+    // });
+    const testSets  = [[[1,1],[2,2],[3,3],[4,4]], [[1,1],[1,3],[2,2],[3,3],[3,1]], [[1,1],[2,2],[3,3],[4,4],[5,5]], [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0]], [[2,2],[3,1],[4,0],[1,1],[1,3],[0,4],[3,3]], [ [ 3, 3 ], [ 1, 1 ], [ 2, 2 ], [ 4, 4 ], [ 5, 5 ], [ 1, 3 ],[ 3, 1 ]], [[1,3,],[2,2],[1,1],[4,4]], [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0],[2,0],[2,4]], [[1,3,],[2,2],[1,1],[4,4],[9,11]], [[1,3,],[2,2],[1,1],[4,4],[9,11], [(1/3), 3], [(1/3), 0], [(1/3), 6]]];
+
+    for( let p = 0; p < 10; p++) {
+	
+	for(let i = 0; i < testSets.length; i++) {
+	    console.log(isCollinear.qcollinear(testSets[i],p));
+	    it('return true if the output is an array', function () {
+		assert.equal(Array.isArray(isCollinear.qcollinear(testSets[i], p)), true);
+	    });
+	}
+
+    }
     // it('return false if two arrays (of arrays) dont have duplicate elements, but share some coordinate value', function () {
     // 	assert.equal(isCollinear.hasDupes([[1,5],[3,6]],[[1,4],[1,2]]), false);
     // });
 
     // it('return false if two arrays (of arrays) dont have duplicate elements and dont share any coordinate values', function () {
-    // 	assert.equal(isCollinear.hasDupes([[2,5],[3,7]],[[6,4],[8,1]]), false);
+    // 	assert.equal(isCollinear.hasDupes([[2,5],[3,7]],[[6,4],[8,1]]).is, false);
     // });
-    
-    
-    // it('should return first character of the string', function () {
-    // 	assert.equal("Hello".charAt(0), 'H');
-    // });
-});
-	 
-// describe('Unit test for determineLinesCollinearWithFocal', function () {
-//     it('return true if two arrays (of arrays) have duplicate elements', function () {
-// 	assert.equal(isCollinear.hasDupes([[1,2],[3,5]],[[1,4],[1,2]]), true);
-//     });
-    
-//     it('return false if two arrays (of arrays) dont have duplicate elements, but share some coordinate value', function () {
-// 	assert.equal(isCollinear.hasDupes([[1,5],[3,6]],[[1,4],[1,2]]), false);
-//     });
-
-//     it('return false if two arrays (of arrays) dont have duplicate elements and dont share any coordinate values', function () {
-// 	assert.equal(isCollinear.hasDupes([[2,5],[3,7]],[[6,4],[8,1]]), false);
-//     });
     
     
    
-// });
+});
 	 

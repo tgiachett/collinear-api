@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
-const  port = normalizePort(process.env.PORT || '8080');
+const port = normalizePort(process.env.PORT || '8080');
 const router = express.Router();
 const models = require("./models");
 const debug = require('debug')('express-sequelize');
@@ -18,7 +18,7 @@ app.get("/space", (req, res) => {
 
     models.Point.findAll({}).then((space) => {
 	const pointsArr = [];
-	console.log(space);
+	
 	space.forEach(point => {
 	    let objectPoint = {x: point.dataValues.x,
 			       y: point.dataValues.y};
@@ -30,7 +30,6 @@ app.get("/space", (req, res) => {
 });
 
 app.post("/point", (req, res) => {
-    console.log(req.body);
     if(req.body instanceof Array ||  isNaN(req.body.x) || isNaN(req.body.y)) {
 	
 	res.json({Error: `Validation error`}); 
@@ -77,7 +76,7 @@ app.post("/lines/:n", (req, res) => {
 	    
 	    const intermediateList = collinear.qcollinear(processedToArray, n);
 	    console.log(intermediateList);
-	    if(!intermediateList[0] || null) {
+	    if(intermediateList.length === 0 || !intermediateList[0] || null) {
 		res.json({Error: "No valid output"});
 		return;
 	    }

@@ -30,8 +30,7 @@ Example response
 ]`
 
 
-- ### Get the longest line segment passing through at least N points. Note that a line segment should be a
-set of COLLINEAR points.
+- ### Get the longest line segment passing through at least N points.
 
 `GET /lines/{n}`
 

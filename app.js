@@ -13,6 +13,11 @@ const collinear = require("./businessLogicModels/isCollinear.js");
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 
+app.get("/", (req, res) => {
+    res.json({Message: "Api root"});
+});
+
+
 app.get("/space", (req, res) => {
 
     models.Point.findAll({}).then((space) => {

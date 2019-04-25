@@ -1,9 +1,4 @@
-
-
-
-
-
-const repl = require('repl');
+// const repl = require('repl');
 
 // all points connected to the same point with the same slope are collinear
 // calculate the slopes of each line created with point i and count the segments
@@ -11,10 +6,10 @@ const repl = require('repl');
 // and also eliminate repeat cases of the same line
 
 function qcollinear (set, n,) {
-    
-    // if(set < n || n === 0 || n === 1) {
-    // 	return [];
-    // }
+    // only continue if n is more than 1 because a line segment starts at 2
+    if (n <= 1) {
+	return [];
+    }
     
     // keep track of repeat cases with p
     let p = 0;
@@ -144,60 +139,7 @@ function sublist (lines, totals) {
     return sublist(lines, totals);
 
 }
-
-
-
-
-// function sublist (lines, totals) {
-//     console.log("lines input",lines);
-//     // const tempLines = lines;
-//     const subtotals = [];
-//     for(let i = lines.length-1; i >= 0; i--) {
-// 	console.log("before",lines[i]);
-	
-// 	if(lines[i-1] &&
-// 	    lines[i-1][0] === lines[i][0] &&
-// 	   hasDupes(lines[i-1],lines[i]))
-// 	{	   
-// 	    console.log("tripped 1", lines[i]);
-// 	    subtotals.push(lines[i-1]);
-// 	    lines.pop();
-// 	    // console.log("tripped1", lines[i-1]);
-// 	} else if (
-
-// 	    (subtotals[0] &&
-// 		subtotals[0][0] && lines[i][0] === subtotals[0][0]) &&
-// 		hasDupes(lines[i], subtotals[0])
-// 	)
-// 	{
-// 	    console.log("tripped2", lines[i]);
-// 	    subtotals.push(lines[i]);
-// 	    lines.pop();
-	    
-// 	} else if (lines[i] === lines[lines.length-1]) {
-// 	    subtotals.push(lines[i]);
-// 	    totals.push(subtotals);
-// 	    lines.pop();
-// 	    return sublist(lines, totals);
-// 	}
-// 	    if(lines.length > 0 &&
-//        lines.length <= 1) {
-//     	console.log("tripped last");
-//     		console.log(lines[0]);
-// 		console.log("last sub",subtotals);
-//     	subtotals.push(lines[0]);
-//     	totals.push(subtotals);
-//     	console.log(totals);
-//     	return totals;
-//     }
-//     }
-    
-//     totals.push(subtotals);
-//     console.log("loop",lines);
-//     return sublist(lines, totals);
-
-// }
-
+	 
 function getLongestCollinearDistance (set) {
     
     let distances = [];
@@ -262,29 +204,6 @@ function hasDupes (A,B) {
     return false;
 }
 
-let load = function (array) {
-    // if the other array is a falsy value, return
-    if (!array)
-        return false;
-
-    // compare lengths - can save a lot of time 
-    if (this.length != array.length)
-        return false;
-
-    for (var i = 0, l=this.length; i < l; i++) {
-        // Check if we have nested arrays
-        if (this[i] instanceof Array && array[i] instanceof Array) {
-            // recurse into the nested arrays
-            if (!this[i].equals(array[i]))
-                return false;       
-        }           
-        else if (this[i] != array[i]) { 
-            // Warning - two different object instances will never be equal: {x:20} != {x:20}
-            return false;   
-        }           
-    }       
-    return true;
-}
 
 Array.prototype.arrEquals = function (array) {
     // if the other array is a falsy value, return
@@ -309,7 +228,8 @@ Array.prototype.arrEquals = function (array) {
     }       
     return true;
 }
-// Hide method from for-in loops
+
+
 Object.defineProperty(Array.prototype, "arrEquals", {enumerable: false});
 
 function hasDupes (A,B) {
@@ -325,36 +245,32 @@ function hasDupes (A,B) {
     return false;
 }
 
-global.sublist = sublist;
-global.getDistance = getDistance;
-global.hasDupes = hasDupes;
-global.qcollinear = qcollinear;
-global.slope = getSlope;
-global.set = [[1,1],[2,2],[3,3],[4,4]];
-global.set2 = [[1,1],[1,3],[2,2],[3,3],[3,1]];
-global.set3 = [[1,1],[2,2],[3,3],[4,4],[5,5]];
-global.set4 = [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0]];
+// global.sublist = sublist;
+// global.getDistance = getDistance;
+// global.hasDupes = hasDupes;
+// global.qcollinear = qcollinear;
+// global.slope = getSlope;
+// global.set = [[1,1],[2,2],[3,3],[4,4]];
+// global.set2 = [[1,1],[1,3],[2,2],[3,3],[3,1]];
+// global.set3 = [[1,1],[2,2],[3,3],[4,4],[5,5]];
+// global.set4 = [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0]];
 
-global.set5 = [[2,2],[3,1],[4,0],[1,1],[1,3],[0,4],[3,3]];
-global.arrayEquals = load;
+// global.set5 = [[2,2],[3,1],[4,0],[1,1],[1,3],[0,4],[3,3]];
 
+// global.set6 = [ [ 3, 3 ], [ 1, 1 ], [ 2, 2 ], [ 4, 4 ], [ 5, 5 ], [ 1, 3 ],[ 3, 1 ]];
+// global.set7 = [[1,3,],[2,2],[1,1],[4,4]];
+// global.set8 = [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0],[2,0],[2,4]];
+// global.set9 = [[1,3,],[2,2],[1,1],[4,4],[9,11]];
+// global.set10 = [[1,3,],[2,2],[1,1],[4,4],[9,11], [(1/3), 3], [(1/3), 0], [(1/3), 6]];
+// global.set11 = [ [ -3, -3 ], [ -1, -1 ], [ -2, -2 ], [ -4, -4 ], [ -5, -5 ], [ -1, -3 ],[ -3, -1 ]];
 
-global.set6 = [ [ 3, 3 ], [ 1, 1 ], [ 2, 2 ], [ 4, 4 ], [ 5, 5 ], [ 1, 3 ],[ 3, 1 ]];
-global.set7 = [[1,3,],[2,2],[1,1],[4,4]];
-global.set8 = [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0],[2,0],[2,4]];
-global.set9 = [[1,3,],[2,2],[1,1],[4,4],[9,11]];
-global.set10 = [[1,3,],[2,2],[1,1],[4,4],[9,11], [(1/3), 3], [(1/3), 0], [(1/3), 6]];
-
-
-
-
-repl.start('>');
+// repl.start('>');
 
 
-const testSets  = [[[1,1],[2,2],[3,3],[4,4]], [[1,1],[1,3],[2,2],[3,3],[3,1]], [[1,1],[2,2],[3,3],[4,4],[5,5]], [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0]], [[2,2],[3,1],[4,0],[1,1],[1,3],[0,4],[3,3]], [ [ 3, 3 ], [ 1, 1 ], [ 2, 2 ], [ 4, 4 ], [ 5, 5 ], [ 1, 3 ],[ 3, 1 ]], [[1,3,],[2,2],[1,1],[4,4]], [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0],[2,0],[2,4]], [[1,3,],[2,2],[1,1],[4,4],[9,11]], [[1,3,],[2,2],[1,1],[4,4],[9,11], [(1/3), 3], [(1/3), 0], [(1/3), 6]]];
+// const testSets  = [[[1,1],[2,2],[3,3],[4,4]], [[1,1],[1,3],[2,2],[3,3],[3,1]], [[1,1],[2,2],[3,3],[4,4],[5,5]], [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0]], [[2,2],[3,1],[4,0],[1,1],[1,3],[0,4],[3,3]], [ [ 3, 3 ], [ 1, 1 ], [ 2, 2 ], [ 4, 4 ], [ 5, 5 ], [ 1, 3 ],[ 3, 1 ]], [[1,3,],[2,2],[1,1],[4,4]], [[1,1],[1,3],[2,2],[3,3],[3,1],[0,4],[4,0],[2,0],[2,4]], [[1,3,],[2,2],[1,1],[4,4],[9,11]], [[1,3,],[2,2],[1,1],[4,4],[9,11], [(1/3), 3], [(1/3), 0], [(1/3), 6]]];
 
-for( let i = 0; i < testSets.length; i++) {
-    console.log(qcollinear(testSets[i], 3));
-}
+// for( let i = 0; i < testSets.length; i++) {
+//     console.log(qcollinear(testSets[i], 3));
+// }
 
 module.exports = {qcollinear, getSlope, getDistance, subDistance, determineLinesCollinearWithFocal, sublist, getLongestCollinearDistance , hasDupes};

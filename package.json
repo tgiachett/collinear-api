@@ -17,8 +17,11 @@
   },
   "homepage": "https://github.com/tgiachett/collinear-api#readme",
   "dependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "mocha": "^6.1.4",
     "mysql2": "^1.6.5",
     "sequelize": "^5.7.4"
   }

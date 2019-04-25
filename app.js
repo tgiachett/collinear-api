@@ -13,7 +13,6 @@ const collinear = require("./businessLogicModels/isCollinear.js");
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 
-
 app.get("/space", (req, res) => {
 
     models.Point.findAll({}).then((space) => {
@@ -23,8 +22,8 @@ app.get("/space", (req, res) => {
 	    let objectPoint = {x: point.dataValues.x,
 			       y: point.dataValues.y};
 	    pointsArr.push(objectPoint);
-	   
-	    });
+	    
+	});
 	res.json(pointsArr);
     });
 });
@@ -65,7 +64,6 @@ app.post("/lines/:n", (req, res) => {
     } else {
 	models.Point.findAll({}).then((space) => {
 	    let processedToArray = [];
-	    
 
 	    space.forEach(point => {
 		processedToArray.push([point.dataValues.x, point.dataValues.y]);
@@ -99,23 +97,20 @@ app.post("/lines/:n", (req, res) => {
     };
 
     
-    
-    
 });
 
 app.delete("/space", (req, res) => {
-  models.Point.destroy({
-  where: {},
-  truncate: true
-  }).then((data) => {
-      res.json(data);
-  });
+    models.Point.destroy({
+	where: {},
+	truncate: true
+    }).then((data) => {
+	res.json({Message: "Successfuly removed all points from the space"});
+    });
 });
-    
+
 
 
 var server = http.createServer(app);
-
 
 function normalizePort(val) {
     var port = parseInt(val, 10);
@@ -144,3 +139,4 @@ models.sequelize.sync().then(function() {
 
 
 
+module.exports = app;

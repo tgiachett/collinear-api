@@ -1,29 +1,30 @@
 {
-    "name": "collinear-api",
-    "version": "1.0.0",
-    "description": "## Overview",
-    "main": "app.js",
-    "scripts": {
-	"start" : "node app.js",
-	"test": "mocha"
-    },
-    "repository": {
-	"type": "git",
-	"url": "git+https://github.com/tgiachett/collinear-api.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-	"url": "https://github.com/tgiachett/collinear-api/issues"
-    },
-    "homepage": "https://github.com/tgiachett/collinear-api#readme",
-    "dependencies": {
-	"chai": "^4.2.0",
-	"chai-http": "^4.2.1",
-	"dotenv": "^7.0.0",
-	"express": "^4.16.4",
-	"mocha": "^6.1.4",
-	"mysql2": "^1.6.5",
-	"sequelize": "^5.7.4"
-    }
+   "name": "collinear-api",
+   "version": "1.0.0",
+   "description": "## Overview",
+   "main": "app.js",
+   "scripts": {
+      "start": "node app.js",
+      "test": "mocha"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/tgiachett/collinear-api.git"
+   },
+   "author": "",
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/tgiachett/collinear-api/issues"
+   },
+   "homepage": "https://github.com/tgiachett/collinear-api#readme",
+   "dependencies": {
+      "chai": "^4.2.0",
+      "chai-http": "^4.2.1",
+      "dotenv": "^7.0.0",
+      "express": "^4.16.4",
+      "mocha": "^6.1.4",
+      "mysql2": "^1.6.5",
+      "pg": "^7.10.0",
+      "sequelize": "^5.7.4"
+   }
 }

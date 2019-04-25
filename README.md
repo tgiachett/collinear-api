@@ -6,7 +6,7 @@ Computer vision involves analyzing patterns in visual images and reconstructing 
 
 Collinear API is a REST API Service that determines lines that contain at least N or more collinear points.
 
-API is hosted at `https://collinearapi.herokuapp.com/`
+API is hosted at https://collinearapi.herokuapp.com/
 
 Example:
 

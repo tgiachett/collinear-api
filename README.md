@@ -37,6 +37,7 @@ set of COLLINEAR points.
 
 Example
 Request: GET /lines/2
+
 `[
 [
 {"x": 2, "y": 3},

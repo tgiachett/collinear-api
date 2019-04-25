@@ -35,23 +35,39 @@ app.post("/point", (req, res) => {
 
 
     } else {
-	models.Point.create({
-	    x: parseInt(req.body.x),
-	    y: parseInt(req.body.y)
-	}).then((data) => {
-	    
-	    res.json({x: data.x,
-		      y: data.y});
 
-	}).catch(function(err) {
-	    // print the error details
-	    const errorsList = [];
-	    err.errors.forEach(err => {
-		let jsonErr = {Error: err.message};
-		errorsList.push(jsonErr);
-	    });
-	    res.json(errorsList);
+	models.Point.findAll({
+	    where: {
+		x: req.body.x,
+		y: req.body.y
+	    }
+	}).then((data) => {
+	    if(data[0]) {
+		res.json({Error: "Point already exists"});
+	    } else {
+
+		models.Point.create({
+		    x: parseFloat(req.body.x),
+		    y: parseFloat(req.body.y)
+		}).then((data) => {
+		    
+		    res.json({x: data.x,
+			      y: data.y});
+
+		}).catch(function(err) {
+		    // print the error details
+		    const errorsList = [];
+		    err.errors.forEach(err => {
+			let jsonErr = {Error: err.message};
+			errorsList.push(jsonErr);
+		    });
+		    res.json(errorsList);
+		});
+	    } 
 	});
+	
+
+
     }
     
 });

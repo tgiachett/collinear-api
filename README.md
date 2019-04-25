@@ -60,7 +60,7 @@ Request: GET /lines/2
 
 2. Install npm dependencies using `npm install`.
 
-3. Install mysql and mysql server
+3. Install mysql server
 
 4. Create a .env file with `DB_PASS='$yourmysqlpasshere'`
 

@@ -15,7 +15,6 @@ function qcollinear (set, n,) {
     let p = 0;
     let lines = [];
 
-    // keep track of the coordinates of the lines that satisfy collinear points N
     //iterate through each point
     for (let i = 0; i < set.length; i++) {
 	//empty array that will store all lines and their slopes
@@ -57,8 +56,8 @@ function qcollinear (set, n,) {
 	//find longest for each sublist (collinear set) and push those to the results array
 	
 	let result = [];
-	totals.forEach(set => {
-	    let longest = getLongestCollinearDistance(set);
+	totals.forEach(group => {
+	    let longest = getLongestCollinearDistance(group);
 	    result.push([longest[1],longest[2]]);
 	});
 	
@@ -67,9 +66,12 @@ function qcollinear (set, n,) {
     
 }
 
+// helper function that finds the points that have a common slope with the focal point
+// then these points must be collinear
+// put them together
 function determineLinesCollinearWithFocal (focal, points, lines, n) {
     
-    // sort the slopes in order to find duplicates ( duplicates will be next to each other)
+    // sort the slopes in order to find duplicates slopes ( duplicates will be next to each other)
     points.sort(function(a,b){return a[1]-b[1];});
     //account for how many extra points have to be included to satisfy n
     // if n is 2 every point collinear with point focal is collinear
@@ -91,8 +93,9 @@ function determineLinesCollinearWithFocal (focal, points, lines, n) {
     return lines;
 }
 
-
-
+// consolidates collinear triplet sets
+// triplets that have the same slope and share any single point are collinear
+//put them into seperate arrays
 function sublist (lines, totals) {
     if(lines.length ===1) {
 	totals.push(lines);
@@ -139,12 +142,13 @@ function sublist (lines, totals) {
     return sublist(lines, totals);
 
 }
-	 
-function getLongestCollinearDistance (set) {
+// finds the greatest distance of each collinear triplet
+// then finds the longest distance among all collinear triplets
+function getLongestCollinearDistance (listOfTriplets) {
     
     let distances = [];
-    for(let i = 0; i < set.length; i++) {
-	distances.push(subDistance(set[i]));
+    for(let i = 0; i < listOfTriplets.length; i++) {
+	distances.push(subDistance(listOfTriplets[i]));
     }
     
     distances.sort(function(a,b){return a[0]-b[0];});
@@ -166,22 +170,21 @@ function getSlope(x1, y1, x2, y2) {
 };
 
 
-
+// helper function to get the distance between two points
 function getDistance (pointOne, pointTwo) {
     const a = pointOne[0] - pointTwo[0];
     const b = pointOne[1] - pointTwo[1];
     return Math.sqrt( a*a + b*b );
 }
 
-//make sublists before adding distances
-
-function subDistance (set) {
+// helper function that gets the greatest distance within each triplet
+function subDistance (triplet) {
     
 
-    let distOne = getDistance(set[1], set[2]);
-    let distTwo = getDistance(set[1],set[3]);
-    let distThree = getDistance(set[2],set[3]);
-    let distances = [[distOne,set[1],set[2]] , [distTwo,set[1],set[3]], [distThree,set[2],set[3]]];
+    let distOne = getDistance(triplet[1], triplet[2]);
+    let distTwo = getDistance(triplet[1],triplet[3]);
+    let distThree = getDistance(triplet[2],triplet[3]);
+    let distances = [[distOne,triplet[1],triplet[2]] , [distTwo,triplet[1],triplet[3]], [distThree,triplet[2],triplet[3]]];
     distances.sort(function(a,b){return a[0]-b[0];});
 
     return distances[distances.length-1];

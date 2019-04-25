@@ -1,0 +1,9 @@
+.tern-port
+/node_modules
+/misc
+*.elc
+*.pyc
+
+.DS_Store
+
+.env

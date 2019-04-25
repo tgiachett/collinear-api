@@ -9,33 +9,36 @@ Collinear API is a REST API Service that determines lines that contain at least 
 ## Usage
 
 
---Add a point to the space
-POST /point with body { "x": ..., "y": ... }
+- ### Add a point to the space
+
+`POST /point with body { "x": ..., "y": ... }`
 
 
---Get all points in the space
 
-GET /space
+- ### Get all points in the space
+
+`GET /space`
 
 
 Example response
 
-[
+`[
 {"x": 2, "y": 3},
 {"x": -2, "y": 1023},
 {"x": 3.2, "y": 0},
 ...
-]
+]`
 
 
---Get the longest line segment passing through at least N points. Note that a line segment should be a
+- ### Get the longest line segment passing through at least N points. Note that a line segment should be a
 set of COLLINEAR points.
 
-GET /lines/{n}
+`GET /lines/{n}`
 
 Example
 Request: GET /lines/2
-[
+
+`[
 [
 {"x": 2, "y": 3},
 {"x": -2, "y": 1023}
@@ -45,24 +48,32 @@ Request: GET /lines/2
 {"x": -2, "y": 1023}
 ],
 ...
-]
+]`
 
 
---Remove all points from the space
+- ### Remove all points from the space
 
-DELETE /space
+`DELETE /space`
 
 ## Installation and Deploy
 
 1. Install the latest versions of node and npm.
+
 2. Install npm dependencies using `npm install`.
+
 3. Install mysql and mysql server
+
 4. Create a .env file with `DB_PASS='$yourmysqlpasshere'`
+
 - alternatively you can configure the database manually using the config file in the config folder
+
 5. Run tests with `npm test` (also starts the sever)
+
 6. start the server with `node app.js` from the root folder
-- Note that the default server port is 8080
-7. Send test requests to http://localhost:8080 ( for example http://localhost:8080/space )
+
+- Note that the default server port is `8080` and the default host is `'localhost'`
+
+7. Send test requests to `http://localhost:8080` ( for example `http://localhost:8080/space` )
 
 8. Please post issues if you find bugs or see areas of improvement
 

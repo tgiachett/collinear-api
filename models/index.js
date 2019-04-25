@@ -20,7 +20,7 @@ if(process.env.DATABASE_URL) {
       protocol: 'postgres',
       port:     8080,
       logging:  true //false
-    })
+    });
   } else {
     // the application is executed on the local machine ... use mysql
     sequelize = new Sequelize(config.database, config.username, config.password, config);

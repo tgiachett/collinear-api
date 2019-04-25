@@ -15,7 +15,6 @@ function qcollinear (set, n,) {
     let p = 0;
     let lines = [];
 
-    // keep track of the coordinates of the lines that satisfy collinear points N
     //iterate through each point
     for (let i = 0; i < set.length; i++) {
 	//empty array that will store all lines and their slopes
